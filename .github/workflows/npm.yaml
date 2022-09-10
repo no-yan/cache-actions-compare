@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: install
-        run:
+        run: |
           cd npm
           npm ci
   # my_second_job:
