@@ -53,7 +53,7 @@ jobs:
         name: Skip building
         run: "echo Chach hit"
 
-      - if: ${{ steps.cache-next.outputs.cache-hit = 'true' }}
+      - if: ${{ steps.cache-next.outputs.cache-hit == 'true' }}
         name: Build
         run: npm run build
 
