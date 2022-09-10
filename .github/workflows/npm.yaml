@@ -10,9 +10,32 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: install
-        run:
+        run: |
           cd npm
           npm ci
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm build
+
+      - name: Test
+        run: npm test
   # my_second_job:
   #   name: My second job
   #   runs-on: ubuntu-latest
