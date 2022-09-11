@@ -15,7 +15,7 @@ runs:
         cache-name: cache-yarn
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles(yarn3/yarn.lock) }}
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('yarn3/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
