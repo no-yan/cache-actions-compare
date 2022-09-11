@@ -18,11 +18,11 @@ runs:
         cache-version: v1 # to invalidate older version
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-${{ cache-version }}-build-${{ env.cache-name }}-${{ hashFiles('yarn3/yarn.lock') }}
+        key: ${{ runner.os }}-${{ env.cache-version }}-build-${{ env.cache-name }}-${{ hashFiles('yarn3/yarn.lock') }}
         restore-keys: |
-          ${{ runner.os }}-${{ cache-version }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-${{ cache-version }}-build-
-          ${{ runner.os }}-${{ cache-version }}-
+          ${{ runner.os }}-${{ env.cache-version }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-${{ env.cache-version }}-build-
+          ${{ runner.os }}-${{ env.cache-version }}-
 
     # In CI, --immutable will be set.
     # > If true (the default on CI), Yarn will refuse to change the installation artifacts (apart from the cache) when running an install.
