@@ -22,3 +22,6 @@ swcMinifyをオフ、.babelrcを追加でも失敗、next@canaryを入れても�
 単にビルドの前に`yarn` でインストールすると、ビルドが失敗しなくなった。
 `yarn` を `--immutable-cache` に変更すると失敗する。
 https://github.com/no-yan/cache-actions-compare/runs/8293766938?check_suite_focus=true
+
+- node_modulesのキャッシュがなぜ推奨されないのかコメントする
+  - [関連Issue](https://github.com/actions/cache/issues/620)
