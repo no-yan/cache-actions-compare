@@ -26,4 +26,5 @@ runs:
       if: steps.cache-npm.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        cd npm
         npm ci
