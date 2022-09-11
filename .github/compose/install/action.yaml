@@ -23,6 +23,7 @@ runs:
           ${{ runner.os }}-
 
     - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      shell: bash
       name: List the state of node modules
       continue-on-error: true
       run: |
@@ -31,3 +32,4 @@ runs:
     # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
     # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
     - run: npm ci
+      shell: bash
