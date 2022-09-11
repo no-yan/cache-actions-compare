@@ -36,8 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install
-        uses: ./.github/compose/cache-yarn
+      # - name: Install
+      #   uses: ./.github/compose/cache-yarn
 
       - name: Cache build
         uses: actions/cache@v3
@@ -52,7 +52,9 @@ jobs:
 
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
-        run: yarn build
+        run: |
+          yarn
+          yarn build
 
   lint:
     name: lint
