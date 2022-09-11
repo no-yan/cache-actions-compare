@@ -2,6 +2,9 @@ name: npm
 
 on:
   push:
+    paths:
+      - 'npm/**'
+      - '*npm*'
 
 jobs:
   install:

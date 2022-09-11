@@ -2,6 +2,9 @@ name: npm and cache node_modules
 
 on:
   push:
+    paths:
+      - 'npm/**'
+      - '*npm*'
 
 jobs:
   install:

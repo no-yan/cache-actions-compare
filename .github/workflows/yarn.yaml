@@ -2,6 +2,9 @@ name: yarn3
 
 on:
   push:
+    paths:
+      - 'yarn/**'
+      - '*yarn*'
 
 jobs:
   install:
