@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache Gradle packages
+      - name: Cache Node packages
         uses: actions/cache@v3
         id: cache-npm
         env:
@@ -22,7 +22,6 @@ jobs:
         with:
           path: |
             ~/.npm
-            ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -32,8 +31,11 @@ jobs:
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
-        run: npm list
+        run: |
+          npm list
 
+      # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
+      # Instead, we can cache `node-modules` directly. See: 
       - run: npm ci
 
       - name: Cache build
@@ -49,9 +51,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
-      - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
-        name: Skip building
-        run: "echo Chach hit"
+      # - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
+      #   name: Skip building
+      #   run: "echo Chach hit"
 
       - if: ${{ steps.cache-next.outputs.cache-hit == 'true' }}
         name: Build
