@@ -1,0 +1,43 @@
+name: 'Install'
+description: 'Install'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      shell: bash
+      run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+    - uses: actions/cache@v3
+      id: cache-yarn
+      env:
+        cache-name: cache-yarn
+        lock-file-dir: yarn3/yarn.lock
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles(${{ env.lock-file-dir }}) }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    # In CI, --immutable will be set.
+    # > If true (the default on CI), Yarn will refuse to change the installation artifacts (apart from the cache) when running an install.
+    # ref: https://yarnpkg.com/configuration/yarnrc
+    - name: install
+      if: steps.cache-yarn.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        dir: ./yarn3
+      run: |
+        if [[ -d ${{ env.dir }} ]]
+        then
+            cd ${{ env.dir }}
+        else
+            exit 1
+        fi
+        yarn --check-cache
+      # Use --check-cache for security concern.
+      # If you can trust any PRs, you can just use `yarn` instead.
+      # ref: https://yarnpkg.com/features/zero-installs#does-it-have-security-implications
