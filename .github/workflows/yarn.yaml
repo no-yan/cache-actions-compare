@@ -52,9 +52,7 @@ jobs:
 
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
-        run: |
-          yarn
-          yarn build
+        run: yarn build
 
   lint:
     name: lint
