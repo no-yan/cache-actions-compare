@@ -11,6 +11,9 @@ runs:
         cd yarn3
         echo "::set-output name=dir::$(yarn config get cacheFolder)"
 
+    - run: pwd
+      shell: bash
+
     - uses: actions/cache@v3
       id: cache-yarn
       env:
