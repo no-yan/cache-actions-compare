@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'npm/**'
-      - '*npm*'
+      - '.github/**/*npm*'
 
 jobs:
   install:
