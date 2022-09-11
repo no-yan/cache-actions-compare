@@ -1,11 +1,6 @@
 name: 'Install node_modules'
 description: 'Install node_modules'
-inputs:
-  directory:
-    description: 'where'
-    required: true
-    default: 'npm'
-# test
+
 runs:
   using: "composite"
   steps:
