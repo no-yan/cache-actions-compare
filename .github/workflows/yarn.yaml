@@ -52,7 +52,12 @@ jobs:
 
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
-        run: yarn build
+        run: |
+          yarn
+          yarn build
+        # Based on the results of CI, first `yarn` seems to be necessary. Or maybe I'm crazy.
+        # change: https://github.com/no-yan/cache-actions-compare/commit/023f205ab73caadca2841e2eb33add14f3c88b69
+        # result: https://github.com/no-yan/cache-actions-compare/runs/8293600268?check_suite_focus=true
 
   lint:
     name: lint

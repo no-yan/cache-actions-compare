@@ -1,6 +1,0 @@
-// temporary disabling swc to success cross-platform build.
-// TODO: Find better solution.
-// https://nextjs.org/docs/messages/failed-loading-swc
-{
-    "presets": ["next/babel"]
-  }

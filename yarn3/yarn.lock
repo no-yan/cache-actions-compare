@@ -1628,7 +1628,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:12.3.0":
+"next@npm:^12.3.0":
   version: 12.3.0
   resolution: "next@npm:12.3.0"
   dependencies:
@@ -1706,7 +1706,7 @@ __metadata:
     "@types/react-dom": 18.0.6
     eslint: 8.23.0
     eslint-config-next: 12.3.0
-    next: 12.3.0
+    next: ^12.3.0
     react: 18.2.0
     react-dom: 18.2.0
     typescript: 4.8.3
