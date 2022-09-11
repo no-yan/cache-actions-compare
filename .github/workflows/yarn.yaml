@@ -5,6 +5,7 @@ on:
     paths:
       - 'yarn/**'
       - '.github/**/*yarn*'
+      - '.github/**/*yarn*/**'
 
 jobs:
   install:
