@@ -15,17 +15,10 @@ runs:
         cache-name: cache-npm
       with:
         path: |
-          ~/.npm
+          ./node-modules
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
-    # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
-    - name: npm ci
-      shell: bash
-      run: |
-        cd npm
-        npm ci
