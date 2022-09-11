@@ -12,7 +12,6 @@ jobs:
         working-directory: npm
 
     steps:
-      - run: cd ${{github.action_path}}
       - uses: actions/checkout@v3
 
       - name: Cache Node packages
