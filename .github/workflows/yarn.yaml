@@ -43,8 +43,9 @@ jobs:
         uses: actions/cache@v3
         id: cache-next
         with:
+        # https://nextjs.org/docs/advanced-features/ci-build-caching#github-actions
           path: |
-            ${{ github.workspace }}/yarn3/.next/cache
+            .next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
