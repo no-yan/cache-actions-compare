@@ -1,10 +1,10 @@
 name: 'Install node_modules'
 description: 'Install node_modules'
-# inputs:
-#   who-to-greet:  # id of input
-#     description: 'Who to greet'
-#     required: true
-#     default: 'World'
+inputs:
+  directory:
+    description: 'where'
+    required: true
+    default: 'npm'
 
 runs:
   using: "composite"
