@@ -4,8 +4,12 @@ on:
   push:
     paths:
       - 'yarn/**'
-      - '.github/**/*yarn*'
-      - '.github/**/*yarn*/**'
+
+      # This will be triggered by any file if the path includes `yarn` string.
+      # e.g. `.github/yarn.yaml`, `.github/yarn333/actions.yaml`
+      - '.github/**yarn**'
+      # Shorthand of 2 path `.github/**/*yarn*` `.github/**/*yarn*/**`.
+      # The syntax can be confusing, because this `**` possibly include `/` as its substring.
 
 jobs:
   install:
@@ -32,9 +36,6 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-
-
-
 
   build:
     name: build
