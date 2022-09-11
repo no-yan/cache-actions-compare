@@ -22,9 +22,6 @@ runs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - run: pwd
-      shell: bash
-
     # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
     # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
     - name: npm ci
