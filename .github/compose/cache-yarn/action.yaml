@@ -7,12 +7,9 @@ runs:
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       shell: bash
+      working-directory: yarn3
       run: |
-        cd yarn3
         echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-    - run: pwd
-      shell: bash
 
     - uses: actions/cache@v3
       id: cache-yarn
@@ -33,6 +30,7 @@ runs:
     - name: install
       if: steps.cache-yarn.outputs.cache-hit != 'true'
       shell: bash
+      working-directory: yarn3
       run: yarn --check-cache
       # Use --check-cache for security concern.
       # If you can trust any PRs, you can just use `yarn` instead.
