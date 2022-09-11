@@ -27,6 +27,7 @@ runs:
       name: List the state of node modules
       continue-on-error: true
       run: |
+        # FIXME: I don't want to hardcode dir, but also inject input directly for sec reason.
         cd npm
         npm list
 
