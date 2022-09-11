@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'yarn/**'
-      - '.github/**/*yarn*/**'
+      - '.github/**/*yarn*'
 
 jobs:
   install:
