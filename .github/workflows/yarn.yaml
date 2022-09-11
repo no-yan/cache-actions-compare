@@ -3,7 +3,7 @@ name: yarn3
 on:
   push:
     paths:
-      - 'yarn/**'
+      - 'yarn3/**'
 
       # This will be triggered by any file if the path includes `yarn` string.
       # e.g. `.github/yarn.yaml`, `.github/yarn333/actions.yaml`
