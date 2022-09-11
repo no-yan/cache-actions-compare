@@ -15,28 +15,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Cache Node packages
-        uses: actions/cache@v3
-        id: cache-npm
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: |
-          npm list
-
-      # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
-      # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
-      - run: npm ci
+        uses: ./.github/compose/install
 
       - name: Cache build
         uses: actions/cache@v3
@@ -66,20 +45,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Cache Node packages
-        uses: actions/cache@v3
-        id: cache-npm
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - run: npm ci
+        uses: ./.github/compose/install
 
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
@@ -97,20 +63,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Cache Node packages
-        uses: actions/cache@v3
-        id: cache-npm
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: |
-            ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - run: npm ci
+        uses: ./.github/compose/install
 
       - name: Lint
         run: npm run lint
