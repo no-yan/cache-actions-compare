@@ -21,8 +21,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - run: yarn
+      - name: Install
+        uses: ./.github/compose/cache-yarn
 
 
   build:
