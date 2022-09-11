@@ -27,7 +27,7 @@ runs:
       name: List the state of node modules
       continue-on-error: true
       run: |
-        cd ${{github.action_path}}
+        cd npm
         npm list
 
     # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
