@@ -23,5 +23,4 @@ runs:
       shell: bash
       working-directory: npm
       run: |
-        cd npm
         npm ci
