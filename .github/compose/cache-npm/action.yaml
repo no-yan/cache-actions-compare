@@ -8,6 +8,7 @@ runs:
       id: cache-npm
       env:
         cache-name: cache-npm
+      # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
       with:
         path: |
           ~/.npm
