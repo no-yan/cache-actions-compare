@@ -78,8 +78,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
-      # Instead, we can cache `node-modules` directly. See: 
+
       - run: npm ci
 
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
@@ -110,8 +109,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
-      # Instead, we can cache `node-modules` directly. See: 
+
       - run: npm ci
 
       - name: Lint

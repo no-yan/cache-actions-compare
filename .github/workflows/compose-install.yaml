@@ -1,0 +1,48 @@
+name: 'Hello World'
+description: 'Greet someone'
+inputs:
+  who-to-greet:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+runs:
+  using: "composite"
+  steps:
+    # - run: echo Hello ${{ inputs.who-to-greet }}.
+    #   shell: bash
+    # - id: random-number-generator
+    #   run: echo "::set-output name=random-number::$(echo $RANDOM)"
+    #   shell: bash
+    # - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+    #   shell: bash
+    # - run: goodbye.sh
+    #   shell: bash
+          - uses: actions/checkout@v3
+
+
+    - uses: actions/cache@v3
+      id: cache-npm
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: |
+          ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      name: List the state of node modules
+      continue-on-error: true
+      run: |
+        npm list
+
+    # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
+    # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
+    - run: npm ci
