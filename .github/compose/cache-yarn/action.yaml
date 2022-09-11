@@ -7,7 +7,9 @@ runs:
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       shell: bash
-      run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      run: |
+        cd yarn3
+        echo "::set-output name=dir::$(yarn config get cacheFolder)"
 
     - uses: actions/cache@v3
       id: cache-yarn
@@ -27,16 +29,7 @@ runs:
     - name: install
       if: steps.cache-yarn.outputs.cache-hit != 'true'
       shell: bash
-      env:
-        dir: ./yarn3
-      run: |
-        if [[ -d ${{ env.dir }} ]]
-        then
-            cd ${{ env.dir }}
-        else
-            exit 1
-        fi
-        yarn --check-cache
+      run: yarn --check-cache
       # Use --check-cache for security concern.
       # If you can trust any PRs, you can just use `yarn` instead.
       # ref: https://yarnpkg.com/features/zero-installs#does-it-have-security-implications
