@@ -18,11 +18,11 @@ runs:
         cache-version: v1 # to invalidate older version
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-${{ env.cache-version }}-build-${{ env.cache-name }}-${{ hashFiles('yarn3/yarn.lock') }}
+        key: ${{ runner.os }}-${{ hashFiles('yarn3/.yarnrc.yml') }}-${{ env.cache-version }}-build-${{ env.cache-name }}-${{ hashFiles('yarn3/yarn.lock') }}
         restore-keys: |
-          ${{ runner.os }}-${{ env.cache-version }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-${{ env.cache-version }}-build-
-          ${{ runner.os }}-${{ env.cache-version }}-
+          ${{ runner.os }}-${{ hashFiles('yarn3/.yarnrc.yml') }}-${{ env.cache-version }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-${{ hashFiles('yarn3/.yarnrc.yml') }}-${{ env.cache-version }}-build-
+          ${{ runner.os }}-${{ hashFiles('yarn3/.yarnrc.yml') }}-${{ env.cache-version }}-
 
 
     # In CI, --immutable will be set.
