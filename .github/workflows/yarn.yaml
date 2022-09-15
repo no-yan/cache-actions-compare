@@ -116,6 +116,7 @@ jobs:
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
         run: |
+          yarn -v
           git add .
           git diff
           echo .yarn/*
