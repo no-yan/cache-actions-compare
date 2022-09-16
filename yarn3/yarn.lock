@@ -152,6 +152,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/swc-linux-x64-gnu@npm:^11.1.2":
+  version: 11.1.4
+  resolution: "@next/swc-linux-x64-gnu@npm:11.1.4"
+  checksum: fbe748fa5c6c5abd601a6c1edc323b2617e7e68973bfd5fded5b7cf216dbc7c04db229b08f5b60c00d462c473801f664164182e59f46ea29ce1eeb548e6793b5
+  conditions: os=linux & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@next/swc-linux-x64-musl@npm:12.3.0":
   version: 12.3.0
   resolution: "@next/swc-linux-x64-musl@npm:12.3.0"
@@ -1701,6 +1709,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "npm@workspace:."
   dependencies:
+    "@next/swc-linux-x64-gnu": ^11.1.2
     "@types/node": 18.7.16
     "@types/react": 18.0.19
     "@types/react-dom": 18.0.6
