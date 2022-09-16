@@ -31,7 +31,8 @@ runs:
       if: steps.cache-yarn.outputs.cache-hit != 'true'
       shell: bash
       working-directory: yarn3
-      run: yarn --check-cache
+      # run: yarn --check-cache
+      run: yarn install
       # Use --check-cache for security concern.
       # If you can trust any PRs, you can just use `yarn` instead.
       # ref: https://yarnpkg.com/features/zero-installs#does-it-have-security-implications
