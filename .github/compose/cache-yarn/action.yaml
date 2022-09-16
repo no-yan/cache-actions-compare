@@ -15,7 +15,7 @@ runs:
       id: cache-yarn
       env:
         cache-name: cache-yarn
-        cache-version: v1 # to invalidate older version
+        cache-version: v3 # to invalidate older version
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: ${{ runner.os }}-${{ env.cache-version }}-build-${{ env.cache-name }}-${{ hashFiles('yarn3/yarn.lock') }}
