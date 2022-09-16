@@ -33,6 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@next/swc-linux-x64-gnu", "npm:11.1.4"],\
             ["@types/node", "npm:18.7.16"],\
             ["@types/react", "npm:18.0.19"],\
             ["@types/react-dom", "npm:18.0.6"],\
@@ -216,6 +217,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@next/swc-linux-x64-gnu", [\
+        ["npm:11.1.4", {\
+          "packageLocation": "./.yarn/unplugged/@next-swc-linux-x64-gnu-npm-11.1.4-717e2e677d/node_modules/@next/swc-linux-x64-gnu/",\
+          "packageDependencies": [\
+            ["@next/swc-linux-x64-gnu", "npm:11.1.4"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:12.3.0", {\
           "packageLocation": "./.yarn/unplugged/@next-swc-linux-x64-gnu-npm-12.3.0-563a18e704/node_modules/@next/swc-linux-x64-gnu/",\
           "packageDependencies": [\
@@ -2133,6 +2141,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["npm", "workspace:."],\
+            ["@next/swc-linux-x64-gnu", "npm:11.1.4"],\
             ["@types/node", "npm:18.7.16"],\
             ["@types/react", "npm:18.0.19"],\
             ["@types/react-dom", "npm:18.0.6"],\
