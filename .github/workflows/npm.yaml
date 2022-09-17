@@ -20,12 +20,12 @@ jobs:
           CACHE_KEY: ${{ runner.os }}-build-cache-npm-${{ hashFiles('npm/package-lock.json') }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if gh extension list ${{ env.CACHE_KEY }} | grep -q "gh-actions-cache"
+          if gh extension list | grep -q "gh-actions-cache"
             then echo "already installed"
             else gh extension install actions/gh-actions-cache
           fi
 
-          if gh actions-cache list "${{ env.CACHE_KEY }}" | grep -q "${{ env.CACHE_KEY }}"
+          if gh actions-cache list --key "${{ env.CACHE_KEY }}" | grep -q "${{ env.CACHE_KEY }}"
             then echo "::set-output name=cache::hit"
             else echo "::set-output name=cache::miss"
           fi
