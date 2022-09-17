@@ -62,6 +62,8 @@ jobs:
 
       - name: Restore node_modules
         uses: ./.github/compose/cache-npm
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache build
         uses: actions/cache@v3
@@ -91,6 +93,8 @@ jobs:
 
       - name: Restore node_modules
         uses: ./.github/compose/cache-npm
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint
         run: npm run lint
