@@ -12,8 +12,8 @@ runs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
           if gh extension list | grep -q "gh-actions-cache"
-            then gh extension install actions/gh-actions-cache
-            else echo "already installed"
+            then echo "already installed"
+            else gh extension install actions/gh-actions-cache
           fi
 
           if gh actions-cache list "${{ env.cache-key }}" | grep -q "${{ env.cache-key }}"
