@@ -11,6 +11,8 @@ jobs:
   actions-test:
     name: actions-test
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - name: check cache is available
@@ -18,7 +20,6 @@ jobs:
         working-directory: npm
         env:
           CACHE_KEY: ${{ runner.os }}-build-cache-npm-${{ hashFiles('npm/package-lock.json') }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if gh extension list | grep -q "gh-actions-cache"
             then echo "already installed"
