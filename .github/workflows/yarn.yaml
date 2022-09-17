@@ -12,23 +12,9 @@ on:
       # The syntax can be confusing, because this `**` possibly include `/` as its substring.
 
 jobs:
-  install:
-    name: install
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: yarn3
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install
-        uses: ./.github/compose/cache-yarn
-
-
   build:
     name: build
     runs-on: ubuntu-latest
-    needs: [install]
     defaults:
       run:
         working-directory: yarn3
@@ -53,7 +39,7 @@ jobs:
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
         run: |
-          yarn build
+          yarn && yarn build
         # Based on the results of CI, first `yarn` seems to be necessary. Or maybe I'm crazy.
         # change: https://github.com/no-yan/cache-actions-compare/commit/023f205ab73caadca2841e2eb33add14f3c88b69
         # result: https://github.com/no-yan/cache-actions-compare/runs/8293600268?check_suite_focus=true
@@ -63,7 +49,6 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
-    needs: [install]
     defaults:
       run:
         working-directory: yarn3
@@ -71,8 +56,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install
-        uses: ./.github/compose/cache-yarn
-
       - name: Lint
-        run: yarn lint
+        run: yarn && yarn lint
