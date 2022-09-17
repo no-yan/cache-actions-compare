@@ -22,6 +22,15 @@ swcMinifyをオフ、.babelrcを追加でも失敗、next@canaryを入れても�
 単にビルドの前に`yarn` でインストールすると、ビルドが失敗しなくなった。
 `yarn` を `--immutable-cache` に変更すると失敗する。
 https://github.com/no-yan/cache-actions-compare/runs/8293766938?check_suite_focus=true
+→ 多分supported architecture をyarnrc.yamlに追加して治ったっぽい（未検証だが）
+逆に、x64の端末でinstallして作ったキャッシュベースでactionを動かしても、actions/cacheを挟むとうまく動作していなかった
+
 
 - node_modulesのキャッシュがなぜ推奨されないのかコメントする
   - [関連Issue](https://github.com/actions/cache/issues/620)
+
+
+- gh CLIをcomposite actionで使用する際には、inputからsecretsを入力する必要がある(ADRのリンクを貼る) 
+- cache-missのjobを並列で実行すると、すべてのjobが遅くなる。これを避けるため、前段にinstallを挟んでcache-missを一回に抑えることができる
+  - ここまでは当たり前だが、actions/cacheを使用するとcacheをダウンロードする分時間がかかる。node_modulesが2GB以上とかになると、pre, post合計で3分とかかかる
+  - そこで、gh cliのgh-actions-cache拡張を使って、存在チェックだけを行い、キャッシュがない場合にだけactions/cacheを呼び出すように変更する
