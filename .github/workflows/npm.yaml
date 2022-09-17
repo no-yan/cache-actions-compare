@@ -11,9 +11,9 @@ jobs:
   actions-test:
     name: actions-test
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # env:
+    #   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - name: check cache is available
@@ -48,7 +48,7 @@ jobs:
       - name: Cache Node packages
         uses: ./.github/compose/cache-npm
         with:
-          token: ${{ secrets.GH_TOKEN}}
+          token: ${{ secrets.GH_TOKEN }}
 
   build:
     name: build
