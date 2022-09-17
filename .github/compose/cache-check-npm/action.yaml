@@ -45,6 +45,7 @@ runs:
     # Because it only restores ~/.npm but, it always needs `npm ci` to recover ./node-modules.
     # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
     - name: npm ci
+      if: steps.check-cache-available.outputs.cache == 'miss'
       shell: bash
       working-directory: npm
       run: |
