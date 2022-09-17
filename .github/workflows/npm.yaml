@@ -7,33 +7,6 @@ on:
       - '.github/**npm**'
 
 jobs:
- 
-  actions-test:
-    name: actions-test
-    runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: check cache is available
-        id: check-cache-available
-        working-directory: npm
-        env:
-          CACHE_KEY: ${{ runner.os }}-build-cache-npm-${{ hashFiles('npm/package-lock.json') }}
-        run: |
-          if gh extension list | grep -q "gh-actions-cache"
-            then echo "already installed"
-            else gh extension install actions/gh-actions-cache
-          fi
-
-          if gh actions-cache list --key "${{ env.CACHE_KEY }}" | grep -q "${{ env.CACHE_KEY }}"
-            then echo "::set-output name=cache::hit"
-            else echo "::set-output name=cache::miss"
-          fi
-      - name: echo
-        run: |
-           echo ${{ steps.check-cache-available.outputs.cache }}
-
   install:
     name: install
     runs-on: ubuntu-latest

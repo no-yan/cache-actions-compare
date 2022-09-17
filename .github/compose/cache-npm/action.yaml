@@ -25,16 +25,12 @@ runs:
           then echo "::set-output name=cache::hit"
           else echo "::set-output name=cache::miss"
         fi
-    - name: echo
-      shell: bash
-      run: |
-          echo ${{ steps.check-cache-available.outputs.cache }}
 
     - uses: actions/cache@v3
       if: steps.check-cache-available.outputs.cache == 'miss'
       id: cache-npm
       env:
-        cache-name: cache-npm
+        cache-name: cache-npm-v1
       # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
       with:
         path: |
