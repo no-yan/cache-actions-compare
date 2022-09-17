@@ -1,6 +1,11 @@
 name: 'Install node_modules'
 description: 'Install node_modules'
 
+inputs:
+  token:
+      description: 'Your token'
+      default: ${{ secrets.GITHUB_TOKEN }}
+
 runs:
   using: "composite"
   steps:
@@ -9,7 +14,7 @@ runs:
       id: check-cache-available
       env:
         cache-key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ inputs.token}}
       run: |
           if gh extension list | grep -q "gh-actions-cache"
             then echo "already installed"
