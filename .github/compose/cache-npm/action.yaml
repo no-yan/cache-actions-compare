@@ -13,7 +13,7 @@ runs:
       shell: bash
       id: check-cache-available
       env:
-        CACHE_KEY: ${{ runner.os }}-build-cache-npm-${{ hashFiles('npm/package-lock.json') }}
+        CACHE_KEY: ${{ runner.os }}-build-cache-npm-v2-${{ hashFiles('npm/package-lock.json') }}
         GH_TOKEN: ${{ inputs.token }}
       run: |
         if gh extension list | grep -q "gh-actions-cache"
@@ -30,7 +30,7 @@ runs:
       if: steps.check-cache-available.outputs.cache == 'miss'
       id: cache-npm
       env:
-        cache-name: cache-npm-v1
+        cache-name: cache-npm-v2
       # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
       with:
         path: |
