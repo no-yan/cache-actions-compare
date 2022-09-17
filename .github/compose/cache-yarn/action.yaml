@@ -1,24 +1,24 @@
-name: 'Install'
-description: 'Install'
+# name: 'Install'
+# description: 'Install'
 
-runs:
-  using: "composite"
-  steps:
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      shell: bash
-      working-directory: yarn3
-      run: |
-        echo "::set-output name=dir::$(yarn config get cacheFolder)"
+# runs:
+#   using: "composite"
+#   steps:
+#     - name: Get yarn cache directory path
+#       id: yarn-cache-dir-path
+#       shell: bash
+#       working-directory: yarn3
+#       run: |
+#         echo "::set-output name=dir::$(yarn config get cacheFolder)"
 
-    # In CI, --immutable will be set.
-    # > If true (the default on CI), Yarn will refuse to change the installation artifacts (apart from the cache) when running an install.
-    # ref: https://yarnpkg.com/configuration/yarnrc
-    - name: install
-      shell: bash
-      working-directory: yarn3
-      # run: yarn --check-cache
-      run: yarn install
-      # Use --check-cache for security concern.
-      # If you can trust any PRs, you can just use `yarn` instead.
-      # ref: https://yarnpkg.com/features/zero-installs#does-it-have-security-implications
+#     # In CI, --immutable will be set.
+#     # > If true (the default on CI), Yarn will refuse to change the installation artifacts (apart from the cache) when running an install.
+#     # ref: https://yarnpkg.com/configuration/yarnrc
+#     - name: install
+#       shell: bash
+#       working-directory: yarn3
+#       # run: yarn --check-cache
+#       run: yarn install
+#       # Use --check-cache for security concern.
+#       # If you can trust any PRs, you can just use `yarn` instead.
+#       # ref: https://yarnpkg.com/features/zero-installs#does-it-have-security-implications

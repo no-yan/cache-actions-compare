@@ -1,25 +1,25 @@
-# name: 'Install node_modules'
-# description: 'Install node_modules'
+name: 'Install node_modules'
+description: 'Install node_modules'
 
-# runs:
-#   using: "composite"
-#   steps:
-#     - uses: actions/cache@v3
-#       id: cache-npm
-#       env:
-#         cache-name: cache-npm
-#       with:
-#         path: |
-#           npm/node-modules
-#         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
-#         restore-keys: |
-#           ${{ runner.os }}-build-${{ env.cache-name }}-
-#           ${{ runner.os }}-build-
-#           ${{ runner.os }}-
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/cache@v3
+      id: cache-npm
+      env:
+        cache-name: cache-npm
+      with:
+        path: |
+          npm/node-modules
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
-#     - name: install
-#       if: steps.cache-npm.outputs.cache-hit != 'true'
-#       shell: bash
-#       working-directory: npm
-#       run: |
-#         npm ci
+    - name: install
+      if: steps.cache-npm.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: npm
+      run: |
+        npm ci
