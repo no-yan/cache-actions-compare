@@ -12,11 +12,9 @@ runs:
     - name: check cache is available test
       shell: bash
       id: check-cache-available
-      working-directory: npm
       env:
         CACHE_KEY: ${{ runner.os }}-build-cache-npm-${{ hashFiles('npm/package-lock.json') }}
         GH_TOKEN: ${{ inputs.token }}
-        GITHUB_TOKEN: ${{ inputs.token }}
       run: |
         if gh extension list | grep -q "gh-actions-cache"
           then echo "already installed"
@@ -32,41 +30,25 @@ runs:
       run: |
           echo ${{ steps.check-cache-available.outputs.cache }}
 
-    # - name: check cache is available
-    #   shell: bash
-    #   id: check-cache-available
-    #   env:
-    #     cache-key: ${{ runner.os }}-build-cache-npm-${{ hashFiles('npm/package-lock.json') }}
-    #     GH_TOKEN: ${{ inputs.token}}
-    #   run: |
-    #       if gh extension list | grep -q "gh-actions-cache"
-    #         then echo "already installed"
-    #         else gh extension install actions/gh-actions-cache
-    #       fi
+    - uses: actions/cache@v3
+      if: steps.check-cache-available.outputs.cache == 'miss'
+      id: cache-npm
+      env:
+        cache-name: cache-npm
+      # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
+      with:
+        path: |
+          ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
 
-    #       if gh actions-cache list "${{ env.cache-key }}" | grep -q "${{ env.cache-key }}"
-    #         then echo "::set-output name=cache::hit"
-    #         else echo "::set-output name=cache::miss"
-    #       fi
-    # - uses: actions/cache@v3
-    #   if: steps.check-cache-available.outputs.cache == 'miss'
-    #   id: cache-npm
-    #   env:
-    #     cache-name: cache-npm
-    #   # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
-    #   with:
-    #     path: |
-    #       ~/.npm
-    #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-build-${{ env.cache-name }}-
-    #       ${{ runner.os }}-build-
-    #       ${{ runner.os }}-
-
-    # # Because it restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
-    # # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
-    # - name: npm ci
-    #   shell: bash
-    #   working-directory: npm
-    #   run: |
-    #     npm ci
+    # Because it only restores ~/.npm but, it always needs `npm ci` to recover ./node-modules.
+    # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
+    - name: npm ci
+      shell: bash
+      working-directory: npm
+      run: |
+        npm ci
