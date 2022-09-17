@@ -29,6 +29,11 @@ jobs:
             then echo "::set-output name=cache::hit"
             else echo "::set-output name=cache::miss"
           fi
+          # FIXME: remove
+          gh actions-cache list --key "${{ env.CACHE_KEY }}"
+      - name: echo
+        run: |
+           echo ${{ steps.check-cache-available.outputs.cache }}
 
   install:
     name: install
