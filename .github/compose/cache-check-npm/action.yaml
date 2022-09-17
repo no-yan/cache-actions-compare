@@ -1,6 +1,6 @@
 name: 'Install node_modules'
 description: 'Install node_modules'
-
+# TODO: Rework it into a generic action that does only check for the existence of a cache.
 # gh cli needs GH_TOKEN, but in composite actions we cannot pass ${{ secrets.GITHUB_TOKEN }} directly.
 inputs:
   token:
