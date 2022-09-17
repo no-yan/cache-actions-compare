@@ -13,7 +13,7 @@ runs:
       shell: bash
       id: check-cache-available
       env:
-        cache-key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
+        cache-key: ${{ runner.os }}-build-cache-npm-${{ hashFiles('npm/package-lock.json') }}
         GH_TOKEN: ${{ inputs.token}}
       run: |
           if gh extension list | grep -q "gh-actions-cache"
