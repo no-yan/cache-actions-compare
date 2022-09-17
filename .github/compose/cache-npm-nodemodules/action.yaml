@@ -10,7 +10,7 @@ runs:
         cache-name: cache-npm
       with:
         path: |
-          ./node-modules
+          npm/node-modules
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
