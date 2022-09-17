@@ -7,6 +7,29 @@ on:
       - '.github/**npm**'
 
 jobs:
+
+  actions-test:
+    name: actions-test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: npm
+    steps:
+      - name: check cache is available
+        id: check-cache-available
+        env:
+          cache-key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
+        run: |
+          if gh extension list | grep -q "gh-actions-cache"
+            then echo "already installed"
+            else gh extension install actions/gh-actions-cache
+          fi
+
+          if gh actions-cache list "${{ env.cache-key }}" | grep -q "${{ env.cache-key }}"
+            then echo "::set-output name=cache::hit"
+            else echo "::set-output name=cache::miss"
+          fi
+
   install:
     name: install
     runs-on: ubuntu-latest
