@@ -4,7 +4,7 @@ description: 'Install node_modules'
 inputs:
   token:
       description: 'Your token'
-      default: ${{ secrets.GITHUB_TOKEN }}
+      required: true
 
 runs:
   using: "composite"

@@ -19,6 +19,8 @@ jobs:
 
       - name: Cache Node packages
         uses: ./.github/compose/cache-npm
+        with:
+          token: ${{ secrets.GH_TOKEN}}
 
   build:
     name: build
