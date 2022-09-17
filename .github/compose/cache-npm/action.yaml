@@ -9,6 +9,7 @@ runs:
       id: check-cache-available
       env:
         cache-key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
           if gh extension list | grep -q "gh-actions-cache"
             then gh extension install actions/gh-actions-cache
