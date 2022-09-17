@@ -34,3 +34,7 @@ https://github.com/no-yan/cache-actions-compare/runs/8293766938?check_suite_focu
 - cache-missのjobを並列で実行すると、すべてのjobが遅くなる。これを避けるため、前段にinstallを挟んでcache-missを一回に抑えることができる
   - ここまでは当たり前だが、actions/cacheを使用するとcacheをダウンロードする分時間がかかる。node_modulesが2GB以上とかになると、pre, post合計で3分とかかかる
   - そこで、gh cliのgh-actions-cache拡張を使って、存在チェックだけを行い、キャッシュがない場合にだけactions/cacheを呼び出すように変更する
+
+
+## TODO
+cache-check-npm/action.yaml を　(cache-key, gh-token) => (cache-hit:boolean) のキャッシュ有無を確認するだけの汎用actionに変更する
