@@ -18,6 +18,7 @@ jobs:
         working-directory: npm
         env:
           cache-key: ${{ runner.os }}-build-cache-npm-${{ hashFiles('npm/package-lock.json') }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if gh extension list | grep -q "gh-actions-cache"
             then echo "already installed"
