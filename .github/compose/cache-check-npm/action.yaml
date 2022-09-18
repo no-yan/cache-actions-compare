@@ -1,10 +1,13 @@
-name: 'Install node_modules'
-description: 'Install node_modules'
+name: 'Check cache key'
+description: 'Check cache key and available cache matches, without recovering'
 
 # gh cli needs GH_TOKEN, but in composite actions we cannot pass ${{ secrets.GITHUB_TOKEN }} directly.
 inputs:
   token:
       description: 'Your token'
+      required: true
+  cache-key:
+      description: 'Cache-key'
       required: true
 outputs:
   cache-hit:
@@ -18,7 +21,7 @@ runs:
       shell: bash
       id: check-cache-available
       env:
-        CACHE_KEY: ${{ runner.os }}-build-cache-npm-v2-${{ hashFiles('npm/package-lock.json') }}
+        CACHE_KEY: ${{ inputs.cache-key }}
         GH_TOKEN: ${{ inputs.token }}
       run: |
         if gh extension list | grep -q "gh-actions-cache"
