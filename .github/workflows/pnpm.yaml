@@ -6,7 +6,7 @@ on:
       - 'pnpm/**'
       - '.github/**pnpm**'
 env:
-  cache-version: v2
+  cache-version: v3
 
 jobs:
   install:
