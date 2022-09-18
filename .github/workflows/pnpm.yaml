@@ -24,7 +24,7 @@ jobs:
         id: cache-node
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          cache-key: ${{ runner.os }}-build-cache-pnpm-${{ env.cache-version }}-${{ hashFiles('pnpm/package-lock.json') }}
+          cache-key: ${{ runner.os }}-build-cache-pnpm-${{ env.cache-version }}-${{ hashFiles('pnpm/pnpm-lock.yaml') }}
       - name: Create cache
         if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
         uses: ./.github/compose/cache-pnpm

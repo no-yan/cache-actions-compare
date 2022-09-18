@@ -27,7 +27,7 @@ runs:
         path: |
           ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
         # When updating, you must also update the key of check-cache action.
-        key: ${{ runner.os }}-build-cache-pnpm-${{ inputs.cache-version }}-${{ hashFiles('pnpm/pnpm.lock.yaml') }}
+        key: ${{ runner.os }}-build-cache-pnpm-${{ inputs.cache-version }}-${{ hashFiles('pnpm/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-build-cache-pnpm-${{ inputs.cache-version }}-
           ${{ runner.os }}-build-
