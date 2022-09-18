@@ -28,6 +28,8 @@ jobs:
       - name: Restore node_modules
         if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
         uses: ./.github/compose/cache-npm
+        with:
+          cache-version: ${{ env.cache-version }}
 
   build:
     name: build
