@@ -7,8 +7,8 @@ inputs:
       description: 'Your token'
       required: true
 outputs:
-  random-number:
-    description: "Random number"
+  cache-hit:
+    description: "whether cache found"
     value: ${{ steps.check-cache-available.outputs.cache-hit }}
 
 runs:
@@ -30,27 +30,3 @@ runs:
           then echo "::set-output name=cache-hit::true"
           else echo "::set-output name=cache-hit::true"
         fi
-
-    - uses: actions/cache@v3
-      if: steps.check-cache-available.outputs.cache == 'miss'
-      id: cache-npm
-      env:
-        cache-name: cache-npm-v2
-      # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
-      with:
-        path: |
-          ~/.npm
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
-
-    # Because it only restores ~/.npm but, it always needs `npm ci` to recover ./node-modules.
-    # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
-    - name: npm ci
-      if: steps.check-cache-available.outputs.cache == 'miss'
-      shell: bash
-      working-directory: npm
-      run: |
-        npm ci
