@@ -44,6 +44,8 @@ jobs:
 
       - name: Restore node_modules
         uses: ./.github/compose/cache-npm
+        with:
+          cache-version: ${{ env.cache-version }}
 
       - name: Cache build
         uses: actions/cache@v3
@@ -73,6 +75,8 @@ jobs:
 
       - name: Restore node_modules
         uses: ./.github/compose/cache-npm
+        with:
+          cache-version: ${{ env.cache-version }}
 
       - name: Lint
         run: npm run lint
