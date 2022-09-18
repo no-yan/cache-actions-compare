@@ -11,7 +11,7 @@ inputs:
       required: true
 outputs:
   cache-hit:
-    description: "Whether the cache is found. Returns 'true' or 'false'(string)"
+    description: "Whether the cache is found. Returns 'true' or 'false' as string."
     value: ${{ steps.check-cache-available.outputs.cache-hit }}
 
 runs:
