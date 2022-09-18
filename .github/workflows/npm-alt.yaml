@@ -5,10 +5,12 @@ on:
     paths:
       - 'npm/**'
       - '.github/**npm**'
+env:
+  cache-version: v2
 
 jobs:
   install:
-    name: install
+    name: Check cache and create it if not exist
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -18,7 +20,16 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Cache Node packages
+        uses: ./.github/compose/cache-check
+        id: cache-node
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          cache-key: ${{ runner.os}}-build-cache-node-module-${{ env.cache-version }}-${{ hashFiles('npm/package-lock.json') }}
+      - name: Restore node_modules
+        if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
         uses: ./.github/compose/cache-npm-nodemodules
+        with:
+          cache-version: ${{ env.cache-version }}
 
   build:
     name: build
@@ -31,8 +42,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache Node packages
+      - name: Restore node_modules
         uses: ./.github/compose/cache-npm-nodemodules
+        with:
+          cache-version: ${{ env.cache-version }}
 
       - name: Cache build
         uses: actions/cache@v3
@@ -44,7 +57,7 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('npm/package-lock.json') }}-${{ hashFiles('npm/**/*.[jt]s', 'npm/**/*.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('npm/package-lock.json') }}-
-
+        # Same key is used in npm.yaml.
 
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
@@ -63,6 +76,8 @@ jobs:
 
       - name: Cache Node packages
         uses: ./.github/compose/cache-npm-nodemodules
+        with:
+          cache-version: ${{ env.cache-version }}
 
       - name: Lint
         run: npm run lint
