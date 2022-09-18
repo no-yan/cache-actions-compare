@@ -57,10 +57,7 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm/pnpm-lock.yaml') }}-${{ hashFiles('pnpm/**/*.[jt]s', 'pnpm/**/*.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('pnpm/pnpm-lock.yaml') }}-
-      - run: pnpm -v
-      - run: pnpm list
-      - run: ls
-      - run: ls node_modules
+
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
         run: pnpm build
