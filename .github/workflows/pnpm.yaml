@@ -60,6 +60,7 @@ jobs:
       - run: pnpm -v
       - run: pnpm list
       - run: ls
+      - run: ls node_modules
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
         run: pnpm build
