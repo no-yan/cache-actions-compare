@@ -4,7 +4,8 @@ on:
   push:
     paths:
       - 'npm/**'
-      - '.github/**npm**'
+      - '.github/**/npm**'
+      - '.github/**-npm**'
 env:
   cache-version: v2
 
