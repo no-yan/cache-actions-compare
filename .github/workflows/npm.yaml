@@ -18,9 +18,10 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Cache Node packages
-        uses: ./.github/compose/cache-check-npm
+        uses: ./.github/compose/cache-check
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          cache-key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
 
   build:
     name: build

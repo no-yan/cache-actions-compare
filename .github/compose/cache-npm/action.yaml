@@ -12,6 +12,7 @@ runs:
       with:
         path: |
           ~/.npm
+        # When updating, you must also update the key of check-cache action.
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
