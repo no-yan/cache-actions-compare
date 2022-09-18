@@ -21,12 +21,12 @@ jobs:
 
       - name: Check cache
         uses: ./.github/compose/cache-check
-        id: cache-node
+        id: cache-pnpm
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           cache-key: ${{ runner.os }}-build-cache-pnpm-${{ env.cache-version }}-${{ hashFiles('pnpm/pnpm-lock.yaml') }}
       - name: Create cache
-        if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
+        if: ${{ steps.cache-pnpm.outputs.cache-hit != 'true' }}
         uses: ./.github/compose/cache-pnpm
         with:
           cache-version: ${{ env.cache-version }}
@@ -59,6 +59,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('pnpm/pnpm-lock.yaml') }}-
       - run: pnpm -v
       - run: pnpm list
+      - run: ls
       - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
         name: Build
         run: pnpm build
