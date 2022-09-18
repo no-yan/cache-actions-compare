@@ -1,25 +1,29 @@
 name: 'Install node_modules'
 description: 'Install node_modules'
 
+inputs:
+  cache-version:
+      description: 'Cache version is used in cache-key. Changing this key will invalidate previous caches.'
+      required: true
+
 runs:
   using: "composite"
   steps:
     - uses: actions/cache@v3
       id: cache-npm
-      env:
-        cache-name: cache-npm-v2
       # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
       with:
         path: |
           ~/.npm
         # When updating, you must also update the key of check-cache action.
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('npm/package-lock.json') }}
+        key: ${{ runner.os }}-build-cache-npm-{{ $inputs.cache-version }}-${{ hashFiles('npm/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-cache-npm-{{ $inputs.cache-version }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
-    # Because it only restores ~/.npm, it always needs `npm ci` to recover ./node-modules.
+    # Because it only restores ~/.npm, it always needs `npm ci` to restore ./node-modules.
     # Instead, we can cache `node-modules` directly. See: https://zenn.dev/odan/scraps/81b2738864a908
+    # For downsides, see: https://github.com/actions/cache/issues/620
     - name: npm ci
       shell: bash
       working-directory: npm

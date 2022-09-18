@@ -5,6 +5,8 @@ on:
     paths:
       - 'npm/**'
       - '.github/**npm**'
+env:
+  cache-version: v2
 
 jobs:
   install:
@@ -22,7 +24,7 @@ jobs:
         id: cache-node
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          cache-key: ${{ runner.os }}-build-cache-npm-v2-${{ hashFiles('npm/package-lock.json') }}
+          cache-key: ${{ runner.os }}-build-cache-npm-${{ env.cache-version }}-${{ hashFiles('npm/package-lock.json') }}
       - name: Restore node_modules
         if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
         uses: ./.github/compose/cache-npm
