@@ -16,9 +16,9 @@ runs:
         path: |
           ~/.npm
         # When updating, you must also update the key of check-cache action.
-        key: ${{ runner.os }}-build-cache-npm-{{ $inputs.cache-version }}-${{ hashFiles('npm/package-lock.json') }}
+        key: ${{ runner.os }}-build-cache-npm-${{ inputs.cache-version }}-${{ hashFiles('npm/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-build-cache-npm-{{ $inputs.cache-version }}-
+          ${{ runner.os }}-build-cache-npm-${{ inputs.cache-version }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
     # Because it only restores ~/.npm, it always needs `npm ci` to restore ./node-modules.
