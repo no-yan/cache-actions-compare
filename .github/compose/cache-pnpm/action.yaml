@@ -35,6 +35,6 @@ runs:
 
     - name: pnpm install
       shell: bash
-      working-directory: npm
+      working-directory: pnpm
       run: |
         pnpm install
