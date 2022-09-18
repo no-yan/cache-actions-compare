@@ -1,7 +1,7 @@
 name: 'Check cache key'
 description: 'Check cache key and available cache matches, without recovering. (Exact match)'
 
-# gh cli needs GH_TOKEN, but in composite we cannot use ${{ secrets.** }} actions by design.
+# gh cli needs GH_TOKEN, but in composite actions we cannot use ${{ secrets.** }} by design.
 inputs:
   token:
       description: 'Your token'
