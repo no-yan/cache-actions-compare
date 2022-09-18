@@ -28,5 +28,5 @@ runs:
 
         if gh actions-cache list --key "${{ env.CACHE_KEY }}" | grep -q "${{ env.CACHE_KEY }}"
           then echo "::set-output name=cache-hit::true"
-          else echo "::set-output name=cache-hit::true"
+          else echo "::set-output name=cache-hit::false"
         fi
