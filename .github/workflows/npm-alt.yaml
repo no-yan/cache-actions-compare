@@ -19,13 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache Node packages
+      - name: Check cache
         uses: ./.github/compose/cache-check
         id: cache-node
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           cache-key: ${{ runner.os}}-build-cache-node-module-${{ env.cache-version }}-${{ hashFiles('npm/package-lock.json') }}
-      - name: Restore node_modules
+      - name: Create cache
         if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
         uses: ./.github/compose/cache-npm-nodemodules
         with:
