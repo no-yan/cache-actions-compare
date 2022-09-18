@@ -1,0 +1,82 @@
+name: pnpm
+
+on:
+  push:
+    paths:
+      - 'pnpm/**'
+      - '.github/**pnpm**'
+env:
+  cache-version: v3
+
+jobs:
+  install:
+    name: Check cache and create it if not exist
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pnpm
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check cache
+        uses: ./.github/compose/cache-check
+        id: cache-pnpm
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          cache-key: ${{ runner.os }}-build-cache-pnpm-${{ env.cache-version }}-${{ hashFiles('pnpm/pnpm-lock.yaml') }}
+      - name: Create cache
+        if: ${{ steps.cache-pnpm.outputs.cache-hit != 'true' }}
+        uses: ./.github/compose/cache-pnpm
+        with:
+          cache-version: ${{ env.cache-version }}
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    needs: [install]
+    defaults:
+      run:
+        working-directory: pnpm
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Restore node_modules
+        uses: ./.github/compose/cache-pnpm
+        with:
+          cache-version: ${{ env.cache-version }}
+
+      - name: Cache build
+        uses: actions/cache@v3
+        id: cache-next
+        with:
+        # https://nextjs.org/docs/advanced-features/ci-build-caching#github-actions
+          path: |
+            pnpm/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm/pnpm-lock.yaml') }}-${{ hashFiles('pnpm/**/*.[jt]s', 'pnpm/**/*.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('pnpm/pnpm-lock.yaml') }}-
+
+      - if: ${{ steps.cache-next.outputs.cache-hit != 'true' }}
+        name: Build
+        run: pnpm build
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    needs: [install]
+    defaults:
+      run:
+        working-directory: pnpm
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Restore node_modules
+        uses: ./.github/compose/cache-pnpm
+        with:
+          cache-version: ${{ env.cache-version }}
+
+      - name: Lint
+        run: pnpm lint

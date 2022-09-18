@@ -1,0 +1,40 @@
+name: 'Install node_modules'
+description: 'Install node_modules'
+
+inputs:
+  cache-version:
+      description: 'Cache version is used in cache-key. Changing this key will invalidate previous caches.'
+      required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: pnpm/action-setup@v2.0.1
+      name: Install pnpm
+      id: pnpm-install
+      with:
+        version: 7
+        run_install: false
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      shell: bash
+      run: |
+        echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+    - uses: actions/cache@v3
+      id: cache-pnpm
+      # https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action
+      with:
+        path: |
+          ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+        # When updating, you must also update the key of check-cache action.
+        key: ${{ runner.os }}-build-cache-pnpm-${{ inputs.cache-version }}-${{ hashFiles('pnpm/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-build-cache-pnpm-${{ inputs.cache-version }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: pnpm install
+      shell: bash
+      working-directory: pnpm
+      run: |
+        pnpm install
