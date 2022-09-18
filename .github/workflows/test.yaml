@@ -1,0 +1,30 @@
+name: npm
+
+on:
+  push:
+    paths:
+      - 'npm/**'
+      - '.github/**npm**'
+
+jobs:
+  install:
+    name: Check cache and create it if not exist
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: npm
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache Node packages
+        uses: ./.github/compose/cache-check-npm
+        id:   cache-next
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: output check
+        if: steps.cache-next.outputs.cache-hit
+        run: |
+          echo ${{ steps.cache-next.outputs.cache-hit }}
+
+      - run: echo ${{ steps.cache-next.outputs.cache-hit }}
