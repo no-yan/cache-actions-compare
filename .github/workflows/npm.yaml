@@ -5,6 +5,8 @@ on:
     paths:
       - 'npm/**'
       - '.github/**npm**'
+env:
+  cache-version: v2
 
 jobs:
   install:
@@ -17,10 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache Node packages
-        uses: ./.github/compose/cache-check-npm
+      - name: Check cache
+        uses: ./.github/compose/cache-check
+        id: cache-node
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          cache-key: ${{ runner.os }}-build-cache-npm-${{ env.cache-version }}-${{ hashFiles('npm/package-lock.json') }}
+      - name: Create cache
+        if: ${{ steps.cache-node.outputs.cache-hit != 'true' }}
+        uses: ./.github/compose/cache-npm
+        with:
+          cache-version: ${{ env.cache-version }}
 
   build:
     name: build
@@ -35,6 +44,8 @@ jobs:
 
       - name: Restore node_modules
         uses: ./.github/compose/cache-npm
+        with:
+          cache-version: ${{ env.cache-version }}
 
       - name: Cache build
         uses: actions/cache@v3
@@ -64,6 +75,8 @@ jobs:
 
       - name: Restore node_modules
         uses: ./.github/compose/cache-npm
+        with:
+          cache-version: ${{ env.cache-version }}
 
       - name: Lint
         run: npm run lint

@@ -1,0 +1,35 @@
+name: 'Check cache key'
+description: 'Check cache key and available cache matches, without recovering. (Exact match)'
+
+# gh cli needs GH_TOKEN, but in composite actions we cannot use ${{ secrets.** }} by design.
+inputs:
+  token:
+      description: 'Your token'
+      required: true
+  cache-key:
+      description: 'Cache-key'
+      required: true
+outputs:
+  cache-hit:
+    description: "Whether the cache is found. Returns 'true' or 'false' as string."
+    value: ${{ steps.check-cache-available.outputs.cache-hit }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: check cache is available test
+      shell: bash
+      id: check-cache-available
+      env:
+        CACHE_KEY: ${{ inputs.cache-key }}
+        GH_TOKEN: ${{ inputs.token }}
+      run: |
+        if gh extension list | grep -q "gh-actions-cache"
+          then echo "already installed"
+          else gh extension install actions/gh-actions-cache
+        fi
+
+        if gh actions-cache list --key "${{ env.CACHE_KEY }}" | grep -q "${{ env.CACHE_KEY }}"
+          then echo "::set-output name=cache-hit::true"
+          else echo "::set-output name=cache-hit::false"
+        fi
