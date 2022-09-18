@@ -1,5 +1,5 @@
 name: 'Check cache key'
-description: 'Check cache key and available cache matches, without recovering'
+description: 'Check cache key and available cache matches, without recovering. (Exact match)'
 
 # gh cli needs GH_TOKEN, but in composite actions we cannot pass ${{ secrets.GITHUB_TOKEN }} directly.
 inputs:
